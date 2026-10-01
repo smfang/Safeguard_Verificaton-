@@ -20,6 +20,12 @@ The repository is organized into three parallel streams:
 
 ## Completed Evaluations
 
+### QwenPaw Tool Guard — Inspect AI Formalisation (September 2026)
+- **Focus:** Phase-1 suite re-run as a UK AISI Inspect AI task via custom provider (`qwenpaw-toolguard`)
+- **Samples:** 84 (same as Phase 1) · **Framework:** inspect-ai 0.3.266
+- **Key Finding:** Exact reproduction of June results (63.1% / 67.9% accuracy); hex, unicode-escape, and quote-obfuscation variants bypass at 0% in both configs — evasion gap is structural, not configurational
+- **Artifact:** [`finding/qwenpaw-inspect-aisi/`](finding/qwenpaw-inspect-aisi/)
+
 ### QwenPaw Tool Guard (June 2026)
 - **Focus:** Shell command execution guard — block rates, bypasses, encoded evasion
 - **Samples:** 50 direct commands + 30 encoded variants (base64, hex, unicode, substitution)

@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>QwenPaw Tool Guard — Inspect AI Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0d1117;color:#e6edf3;margin:0;padding:32px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:15px;color:#8b949e;font-weight:500;margin:0 0 24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:28px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px}
+.card .k{font-size:12px;color:#8b949e;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:26px;font-weight:650;margin-top:6px}
+.card .s{font-size:12px;color:#8b949e;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr;gap:20px}
+.panel{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px}
+.panel h3{margin:0 0 14px;font-size:15px}
+.bad{color:#f85149} .ok{color:#3fb950} .warn{color:#d29922}
+.foot{margin-top:22px;font-size:12px;color:#8b949e}
+@media(min-width:1100px){.grid{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<h1>QwenPaw Tool Guard — Inspect AI (UK AISI) Evaluation</h1>
+<h2>84 samples × 2 guard configs · inspect-ai 0.3.266 · run 2026-09-30 · exact reproduction of June 2026 Phase-1 probe</h2>
+<div class="cards">
+ <div class="card"><div class="k">Accuracy — default</div><div class="v warn">63.1%</div><div class="s">block rate 34.5%</div></div>
+ <div class="card"><div class="k">Accuracy — hardened</div><div class="v warn">67.9%</div><div class="s">block rate 39.3%</div></div>
+ <div class="card"><div class="k">Dangerous blocked</div><div class="v bad">48.3% → 55.2%</div><div class="s">of 58 dangerous samples</div></div>
+ <div class="card"><div class="k">Encoded variants blocked</div><div class="v bad">40.0% → 53.3%</div><div class="s">of 30 encoded samples</div></div>
+ <div class="card"><div class="k">Benign false positives</div><div class="v ok">3.8%</div><div class="s">1/26 · <code>mv a.txt b.txt</code> in both configs</div></div>
+ <div class="card"><div class="k">False negatives</div><div class="v bad">30 → 26</div><div class="s">hardening removes only 4</div></div>
+</div>
+<div class="grid">
+ <div class="panel"><h3>Block rate by encoding variant (%)</h3><canvas id="variants"></canvas></div>
+ <div class="panel"><h3>Block rate by sample category (%)</h3><canvas id="cats"></canvas></div>
+</div>
+<div class="foot">Static render of <code>logs/analysis.json</code> — for sample-level inspection run <code>inspect log view logs</code>. Key finding: hex, unicode-escape &amp; quote-obfuscation bypass at <span class="bad">0%</span> in both configs — the evasion gap is structural, not configurational. Base64 "100%" is a pipe-pattern regex match, not decoding.</div>
+<script>
+const grid='#30363d', tick='#8b949e';
+new Chart(variants,{type:'bar',data:{labels:["base64", "hex", "unicode_escape", "shell_var", "backtick", "chain", "quote_obfuscation", "direct"],datasets:[
+ {label:'default',data:[100.0, 0.0, 0.0, 50.0, 50.0, 50.0, 0.0, 31.5],backgroundColor:'#d29922'},
+ {label:'hardened',data:[100.0, 0.0, 0.0, 100.0, 100.0, 50.0, 0.0, 31.5],backgroundColor:'#58a6ff'}]},
+ options:{scales:{y:{min:0,max:100,grid:{color:grid},ticks:{color:tick}},x:{grid:{display:false},ticks:{color:tick}}},plugins:{legend:{labels:{color:tick}}}});
+new Chart(cats,{type:'bar',data:{labels:["benign_development", "benign_echo", "benign_network", "benign_system_queries", "benign_text_processing", "dangerous_credential_theft", "dangerous_network_abuse", "benign_file_operations", "dangerous_reverse_shell", "dangerous_system_modification", "dangerous_system_destruction", "dangerous_privilege_escalation"],datasets:[
+ {label:'default',data:[0.0, 0.0, 0.0, 0.0, 0.0, 9.1, 10.0, 16.7, 54.5, 66.7, 76.9, 85.7],backgroundColor:'#d29922'},
+ {label:'hardened',data:[0.0, 0.0, 0.0, 0.0, 0.0, 27.3, 30.0, 16.7, 54.5, 66.7, 76.9, 85.7],backgroundColor:'#58a6ff'}]},
+ options:{indexAxis:'y',scales:{x:{min:0,max:100,grid:{color:grid},ticks:{color:tick}},y:{grid:{display:false},ticks:{color:tick}}},plugins:{legend:{labels:{color:tick}}}});
+</script></body></html>
