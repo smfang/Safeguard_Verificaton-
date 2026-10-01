@@ -1,9 +1,4 @@
-# AI Safety Evaluations — adminagent2
-
-This directory contains the unified evaluation framework for agentic AI safety and security testing.
-
-**⚠️ SEPARATE FROM WEBSITE:** This evaluation workspace is independent from the `website/` and `content/` directories used for www.aisafetynode.com deployment. Changes here do not affect the website.
-
+# AI Safety Evaluations  
 ## Structure
 
 | Directory | Purpose |
@@ -16,12 +11,7 @@ This directory contains the unified evaluation framework for agentic AI safety a
 | `truthfulqa-evaluation/` | Truthfulness evaluation (817 questions, 38 categories) |
 | `evaluation-plans/` | Evaluation plans for specific targets (e.g., GLM) |
 
-## What This Is NOT
-
-This `evaluations/` directory is **independent** from the website deployment at `website/` and `content/`.
-- Changes here do **not** affect www.aisafetynode.com
-- This is a research workspace, not a production deployment
-- The website deployment uses `content/` and `website/` only
+ 
 
 ## Completed Evaluations
 
