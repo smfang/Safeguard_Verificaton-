@@ -1,13 +1,8 @@
 # Guardreadoner Evaluation Plan
 ## A Rigorous, Reproducible Protocol for AI Safety Benchmarking
 
-**Version:** 0.1 (Draft — pending Research Agent findings)  
-**Date:** 2026-07-24  
-**Authors:** Evaluation Agent (subagent)  
-**Status:** Planning phase — do not execute code yet
-
----
-
+**Version:** 0.1  
+ 
 ## 1. Evaluation Objectives
 
 ### 1.1 Primary Goals
